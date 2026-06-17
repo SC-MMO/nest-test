@@ -1,5 +1,6 @@
 services:
   backend:
+    container_name: backend
     build:
       context: ./apps/backend
       dockerfile: Dockerfile
@@ -7,6 +8,19 @@ services:
       - "3000:3000"
     volumes:
       - ./apps/backend:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/mydb
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./apps/frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./apps/frontend/:/app
       - /app/node_modules
 
   postgres:
